@@ -1,6 +1,14 @@
+import CalypsoCard from "../components/CalypsoCard";
+// import { useState, useEffect } from React;
+
+
 function Board(props) {
+    // const [board, setBoard] = useState([null]);
+
     return (
-        <h1>My Project</h1>
+        <div>
+            <CalypsoCard title="test" />
+        </div>
     )
 };
 
