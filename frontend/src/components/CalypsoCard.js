@@ -1,13 +1,17 @@
-import { Card } from 'react-bootstrap';
+import { Container, Card } from 'react-bootstrap';
+import Task from './Task';
+
 
 function CalypsoCard({ title }) {
     return (
         <div>
-            <Card style={{ flex: 1 }}>
+            <Container>
+            <Card style={{width: "300px"}}>
                 <Card.Title>{title}</Card.Title>
                     <Card.Img src="" />
-                <h3>image</h3>
+                <Task task="this is a task" />
             </Card>
+            </Container>
         </div> 
     )
 };
