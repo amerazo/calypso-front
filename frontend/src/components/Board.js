@@ -1,7 +1,6 @@
-import CalypsoCard from "./CalypsoCard";
 // import { useState, useEffect } from React;
 // import { NavLink } from "react-router-dom";
-
+import CalypsoCard from "./CalypsoCard";
 
 function Board(props) {
     // const [board, setBoard] = useState([null]);
