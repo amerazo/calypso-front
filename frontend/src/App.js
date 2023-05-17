@@ -11,6 +11,7 @@ import Board from "./components/Board";
 import { connect } from 'react-redux';
 // https://www.npmjs.com/package/react-smooth-dnd - drag and drop
 
+
 function App() {
   return (
     <div className="App">
@@ -26,6 +27,7 @@ function App() {
     </div>
   );
 }
+
 
 const mapStateToProps = state => ({
   cards: state.cards
