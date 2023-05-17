@@ -1,7 +1,10 @@
+// import all the things you need
 import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 
 const NewBoard = () => {
+
+    // set up board and state
     const [titleState, setTitleState] = useState("");
     const [backgroundState, setBackgroundState] = useState("");
 
@@ -19,6 +22,7 @@ const NewBoard = () => {
     };
     console.log("New Board, yo: ", newBoard);
     }
+    
     // form to create new Board
     return (
       <div className="newboard">

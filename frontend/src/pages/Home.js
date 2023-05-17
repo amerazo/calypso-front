@@ -3,6 +3,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Container } from 'react-bootstrap'; 
 
 function Home(props) {
+
+    // home page
     return (
         <Container style={{ display: 'flex', flexDirection: 'row' }}>
             <Card style={{ flex: 1, width: '20rem' }}>

@@ -1,12 +1,12 @@
-// import react stuff
+// import the stuff you need
 import { useEffect, useState } from "react";
-// import bootstrap stuff
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Container, Button, Modal } from 'react-bootstrap';
 import Board from "../components/Board";
 import NewBoard from "../components/NewBoard";
 
 const Boards = () => {
+    
     // get the boards
     const [boards, setBoards] = useState(null);
     const URL = "";
@@ -48,7 +48,7 @@ const Boards = () => {
         <div>
             <h1>Boards Page</h1>
             <h3>My Boards</h3>
-            {/* existing board cards */}
+            {/* existing boards */}
             <Container style={{ display: 'flex', flexDirection: 'row' }}>
                 <Card style={{ flex: 1 }}>
                 <Card.Title>Board Name</Card.Title>
