@@ -8,24 +8,24 @@ import CalypsoCard from "./CalypsoCard";
 const Board = (props) => {
 
     // get the cards
-    const [calCards, setCalCards] = useState(null);
+    const [myBoard, setMyBoard] = useState(null);
     // const [columns, setColumns] = useState(null);
     const [newCardData, setNewCardData] = useState({ title: '', tasks: [] });
 
 
-    const { boardId } = useParams();
-    console.log('boardId: ', boardId);
+    const { id } = useParams();
+    console.log('id: ', id);
 
-    const URL = `https://calypso-back-end.onrender.com/boards/${boardId}`; // fetch a board by id
+    const URL = `https://calypso-back-end.onrender.com/boards/${id}`; // fetch a board by id
 
     useEffect(() => {
         console.log("board_ useEffect ran");
         const fetchBoard = async() => {
             try {
                 let responseData = await fetch(URL);
-                let allCalCards = await responseData.json();
-                console.log(allCalCards);
-                setCalCards(allCalCards);
+                let boardData = await responseData.json();
+                console.log('boardData: ', boardData);
+                setMyBoard(boardData);
             } catch (error) {}
         };
         fetchBoard()
@@ -44,7 +44,7 @@ const Board = (props) => {
     // board_ page
     return (
         <div>
-            <h1>My Board</h1>
+            <h1>{myBoard.title}</h1>
             <h3>My Cards</h3>
             {/* existing cards */}
             <CalypsoCard title="this is a card" />
@@ -58,7 +58,7 @@ const Board = (props) => {
                     <Modal.Title>Create a New Card</Modal.Title>
                 </Modal.Header>
             <Modal.Body>
-                <NewCalCard id={boardId} />
+                <NewCalCard id={id} />
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseModal}>
