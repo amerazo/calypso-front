@@ -8,8 +8,6 @@ import Boards from "./pages/Boards";
 import Home from "./pages/Home";
 import About from "./pages/About";
 import Board from "./components/Board";
-import { connect } from 'react-redux';
-// https://www.npmjs.com/package/react-smooth-dnd - drag and drop
 
 
 function App() {
@@ -27,10 +25,5 @@ function App() {
     </div>
   );
 }
-
-
-const mapStateToProps = state => ({
-  cards: state.cards
-})
 
 export default App;

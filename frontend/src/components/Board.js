@@ -5,16 +5,18 @@ import { Button, Modal } from 'react-bootstrap';
 import NewCalCard from './NewCalCard';
 import CalypsoCard from "./CalypsoCard";
 
-const Board = ({ board, title }) => {
+const Board = (props) => {
 
-    // get the cards (and maybe columns?)
+    // get the cards
     const [calCards, setCalCards] = useState(null);
-    const [columns, setColumns] = useState(null);
+    // const [columns, setColumns] = useState(null);
+    const [newCardData, setNewCardData] = useState({ title: '', tasks: [] });
 
-    const { id } = useParams();
-    console.log(useParams());
 
-    const URL = `https://calypso-back-end.onrender.com/boards/${id}`; // fetch a board by id
+    const { boardId } = useParams();
+    console.log('boardId: ', boardId);
+
+    const URL = `https://calypso-back-end.onrender.com/boards/${boardId}`; // fetch a board by id
 
     useEffect(() => {
         console.log("board_ useEffect ran");
@@ -29,23 +31,13 @@ const Board = ({ board, title }) => {
         fetchBoard()
     }, []);
 
-    // list the cards
-    // let calCardList;
-
-    // if (calCards) {
-    //     calCardList = calCards.map((calCard, index) => {
-    //       return (
-    //           <CalypsoCard key={index} calCard={calCard} />
-    //       );
-    //     });
-    // };
-
     // for add new card modal
     const [showModal, setShowModal] = useState(false);
     const handleShowModal = () => {
         setShowModal(true);
     };
     const handleCloseModal = () => {
+        setNewCardData({ title: '', tasks: [] });
         setShowModal(false);
     };
 
@@ -66,7 +58,7 @@ const Board = ({ board, title }) => {
                     <Modal.Title>Create a New Card</Modal.Title>
                 </Modal.Header>
             <Modal.Body>
-                <NewCalCard />
+                <NewCalCard id={boardId} />
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseModal}>
