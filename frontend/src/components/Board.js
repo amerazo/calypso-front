@@ -44,7 +44,7 @@ const Board = (props) => {
     // board_ page
     return (
         <div>
-            <h1>{myBoard.title}</h1>
+            {myBoard ? <h1>{myBoard.title}</h1> : <h2>LOADING.. </h2>}
             <h3>My Cards</h3>
             {/* existing cards */}
             <CalypsoCard title="this is a card" />
