@@ -1,15 +1,21 @@
 // import the things you need
 import { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import NewCalCard from './NewCalCard';
 import CalypsoCard from "./CalypsoCard";
 
-const Board = () => {
+const Board = ({ board, title }) => {
 
     // get the cards (and maybe columns?)
     const [calCards, setCalCards] = useState(null);
     const [columns, setColumns] = useState(null);
-    const URL = "";
+
+    const { id } = useParams();
+    console.log(useParams());
+
+    const URL = `https://calypso-back-end.onrender.com/boards/${id}`; // fetch a board by id
+
     useEffect(() => {
         console.log("board_ useEffect ran");
         const fetchBoard = async() => {
@@ -24,15 +30,15 @@ const Board = () => {
     }, []);
 
     // list the cards
-    let calCardList;
+    // let calCardList;
 
-    if (calCards) {
-        calCardList = calCards.map((calCard, index) => {
-          return (
-              <CalypsoCard key={index} calCard={calCard} />
-          );
-        });
-    };
+    // if (calCards) {
+    //     calCardList = calCards.map((calCard, index) => {
+    //       return (
+    //           <CalypsoCard key={index} calCard={calCard} />
+    //       );
+    //     });
+    // };
 
     // for add new card modal
     const [showModal, setShowModal] = useState(false);
@@ -46,7 +52,7 @@ const Board = () => {
     // board_ page
     return (
         <div>
-            <h1>My Board Page</h1>
+            <h1>My Board</h1>
             <h3>My Cards</h3>
             {/* existing cards */}
             <CalypsoCard title="this is a card" />

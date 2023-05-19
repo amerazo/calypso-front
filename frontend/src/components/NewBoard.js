@@ -9,20 +9,34 @@ const NewBoard = () => {
     const [backgroundState, setBackgroundState] = useState("");
 
     // state updater
-    const onChangeHandler = (e, setValue) => {
-        console.log(e.target);
-        setValue(e.target.value);
+  const onChangeHandler = (e, setValue) => {
+    console.log(e.target);
+    setValue(e.target.value);
+  }
+
+  const onSubmitHandler = async (e) => {
+    e.preventDefault();
+    const newBoard = {
+        title: titleState,
+        image: backgroundState
+    };
+
+    console.log("New Board, yo: ", newBoard);
+
+    const options = {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        }, 
+        body: JSON.stringify(newBoard)
     }
 
-    const onSubmitHandler = async (e) => {
-        e.preventDefault();
-        const newBoard = {
-            title: titleState,
-            background: backgroundState
-    };
-    console.log("New Board, yo: ", newBoard);
-    }
-    
+    const responseData = await fetch("https://calypso-back-end.onrender.com/boards", options);
+
+    const newBoardObj = await responseData.json();
+    console.group(newBoardObj);
+
+  };
     // form to create new Board
     return (
       <div className="newboard">

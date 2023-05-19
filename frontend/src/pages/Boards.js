@@ -1,21 +1,23 @@
 // import the stuff you need
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Card, Container, Button, Modal } from 'react-bootstrap';
 import Board from "../components/Board";
 import NewBoard from "../components/NewBoard";
+import BoardIcon from '../components/BoardIcon';
 
 const Boards = () => {
     
     // get the boards
     const [boards, setBoards] = useState(null);
-    const URL = "";
+    const URL = "https://calypso-back-end.onrender.com/boards/";
     useEffect(() => {
         console.log("boards useEffect ran");
         const fetchBoards = async() => {
             try {
                 let responseData = await fetch(URL);
                 let allBoards = await responseData.json();
+                console.log(responseData);
                 console.log(allBoards);
                 setBoards(allBoards);
             } catch (error) {}
@@ -24,15 +26,17 @@ const Boards = () => {
     }, []);
 
     // list the boards
-    let boardList;
+    // let boardList;
 
-    if (boards) {
-        boardList = boards.map((board, index) => {
-          return (
-              <Board key={index} board={board} />
-          );
-        });
-    };
+    // if (boards) {
+    //     console.log('boards! ', boards)
+    //     // boardList = boards.map((board, index) => {
+    //       return (
+    //           <BoardIcon boards={boards} />
+    //       );
+    //     // });
+    // };
+    // console.log(boardList)
 
     // for add new board modal
     const [showModal, setShowModal] = useState(false);
@@ -48,24 +52,9 @@ const Boards = () => {
         <div>
             <h1>Boards Page</h1>
             <h3>My Boards</h3>
+            
             {/* existing boards */}
-            <Container style={{ display: 'flex', flexDirection: 'row' }}>
-                <Card style={{ flex: 1 }}>
-                <Card.Title>Board Name</Card.Title>
-                    <Card.Img src="" />
-                <h3>image</h3>
-                </Card>
-                <Card style={{ flex: 1 }}>
-                <Card.Title>Board Name</Card.Title>
-                    <Card.Img src="" />
-                <h3>image</h3>
-                </Card>
-                <Card style={{ flex: 1 }}>
-                <Card.Title>Board Name</Card.Title>
-                    <Card.Img src="" />
-                <h3>image</h3>
-                </Card>
-            </Container>
+            {boards ? <BoardIcon boards={boards} /> : <h2>LOADING.. </h2>}
 
             {/* new board form */}
             <Button variant="primary" onClick={handleShowModal}>
