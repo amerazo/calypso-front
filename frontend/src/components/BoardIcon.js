@@ -1,6 +1,8 @@
 // import what you need
-import { Card, Container, Row, Col, Button } from 'react-bootstrap';
+import { useState } from 'react';
+import { Card, Container, Row, Col, Button, Modal } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import EditBoard from './EditBoard';
 
 
 const BoardIcon = ({ boards }) => {
@@ -31,6 +33,19 @@ const BoardIcon = ({ boards }) => {
        }
     };
 
+    // for edit board modal
+    const [showModal, setShowModal] = useState(false);
+    const [selectedBoard, setSelectedBoard] = useState(null);
+
+    const handleShowModal = (board) => {
+        setSelectedBoard(board);
+        setShowModal(true);
+    };
+    const handleCloseModal = () => {
+        setSelectedBoard(null);
+        setShowModal(false);
+    };
+
     // display board icon
     return (
         <Container>
@@ -47,11 +62,26 @@ const BoardIcon = ({ boards }) => {
                         <Button onClick={() => handleDeleteBoard(board._id)} className="mt-2">
                                 Delete
                         </Button>
-                        <Link to={`/boards/${board._id}/edit`} style={{ textDecoration: 'none' }}>
-                            <Button className="mt-2" variant="primary">
-                                Edit
+
+                        {/* edit board form */}
+                        <Button variant="primary" onClick={() => handleShowModal(board)}>
+                            Edit Board
+                        </Button>
+
+                        {/* modal for edit board */}
+                        <Modal show={showModal && selectedBoard === board} onHide={handleCloseModal}>
+                            <Modal.Header closeButton>
+                                <Modal.Title>Edit Board</Modal.Title>
+                            </Modal.Header>
+                            <Modal.Body>
+                            <EditBoard board={selectedBoard} />
+                        </Modal.Body>
+                        <Modal.Footer>
+                            <Button variant="secondary" onClick={handleCloseModal}>
+                                Cancel
                             </Button>
-                        </Link>
+                        </Modal.Footer>
+                        </Modal>  
                     </Card>
                  </Col>
              ))}

@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import { Form, Button } from 'react-bootstrap';
 
-const EditBoard = (props) => {
-  const [titleState, setTitleState] = useState("");
+const EditBoard = ({board}) => {
+    const [titleState, setTitleState] = useState("");
+    
+    const navigate = useNavigate();
 
-  const { id } = useParams();
-  const navigate = useNavigate();
-
-  useEffect(() => {
+    useEffect(() => {
     
     const fetchBoard = async () => {
       try {
-        const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${id}`);
+        const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${board._id}`);
         const boardData = await responseData.json();
         console.log(boardData);
         const { title } = boardData;
@@ -20,7 +20,7 @@ const EditBoard = (props) => {
     };
 
     fetchBoard();
-  }, [id]);
+  }, [board._id]);
 
   //Here we are making a dynamic onChangeHandler that'll accept a state updater
   const onChangeHandler = (e, setValue) => {
@@ -45,53 +45,16 @@ const EditBoard = (props) => {
     };
 
     const responseData = await fetch(
-        `https://calypso-back-end.onrender.com/boards/${id}`,options
+        `https://calypso-back-end.onrender.com/boards/${board._id}`, options
     );
 
     const updatedBoardObj = await responseData.json();
     console.log(updatedBoardObj);
 
-    navigate(`/${id}`);
-  }; //end of submit
-
-  const onDeleteHandler = async (event) => {
-    event.preventDefault();
-
-    console.log("Deleting board with id of: ", id);
-
-    const options = {
-      method: "DELETE",
-    };
-
-    const responseData = await fetch(
-        `https://calypso-back-end.onrender.com/boards/${id}`, options
-    );
-
-    const response = await responseData.json();
-    console.log(response);
-
-    navigate(`/boards`); //--Take us home 🚀
+    navigate(`/boards/${board._id}`);
   }; //end of submit
 
   return (
-    // <div className="newBoard">
-    //   <form onSubmit={onSubmitHandler}>
-    //     <input
-    //       type="text"
-    //       value={titleState}
-    //       name="title"
-    //       placeholder="title"
-    //       onChange={(e) => onChangeHandler(e, setTitleState)}
-    //     />
-
-    //     <input type="submit" value="✅UPDATE BOARD" />
-    //     <input
-    //       onClick={onDeleteHandler}
-    //       type="button"
-    //       value="😵DELETE PERSON"
-    //     />
-    //   </form>
-    // </div>
     <div className="editboard">
     <Form onSubmit={onSubmitHandler}>
       <Form.Group>
