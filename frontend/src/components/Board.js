@@ -11,6 +11,8 @@ const Board = (props) => {
     // get the board
     const [myBoard, setMyBoard] = useState(null);
     const [newCardData, setNewCardData] = useState(null);
+    const [editMode, setEditMode] = useState(false);
+    const [editedTitle, setEditedTitle] = useState('');
 
     const { id } = useParams();
     console.log('id: ', id);
@@ -25,10 +27,32 @@ const Board = (props) => {
                 let boardData = await responseData.json();
                 console.log('boardData: ', boardData);
                 setMyBoard(boardData);
+                setEditedTitle(boardData.title);
             } catch (error) {}
         };
         fetchBoard()
     }, []);
+
+    // handle board title update
+    const handleUpdateTitle = async () => {
+        try {
+            const options = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title: editedTitle })
+            };
+            const responseData = await fetch(URL, options);
+            if (!responseData.ok) {
+                throw new Error ('Failed to update board title');
+            }
+            setEditMode(false);
+            window.location.reload(); // refresh the page
+        } catch (error) {
+            console.log('Error updating board title: ', error);
+        }
+    };
 
     // for add new card modal
     const [showModal, setShowModal] = useState(false);
@@ -43,7 +67,28 @@ const Board = (props) => {
     // board_ page
     return (
         <div>
-            {myBoard ? <h1>{myBoard.title}</h1> : <h2>LOADING.. </h2>}
+            {/* title and edit title */}
+            {myBoard ? (
+                <h1>
+                {editMode ? (
+                    <input 
+                        type="text"
+                        value={editedTitle}
+                        onChange={(e) => setEditedTitle(e.target.value)}
+                    />
+                ) : (
+                    <span onClick={() => setEditMode(true)}>
+                        {myBoard.title}
+                    </span>
+                )}
+                {editMode && (
+                    <Button variant='primary' onClick={handleUpdateTitle}>
+                        Save
+                    </Button>
+                )}
+                </h1>
+                ) : (
+                    <h2>LOADING.. </h2>)}
 
             {/* new card form */}
             <Button variant="primary" onClick={handleShowModal}>
