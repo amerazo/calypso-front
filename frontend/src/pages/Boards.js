@@ -1,8 +1,7 @@
 // import the stuff you need
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Card, Container, Button, Modal } from 'react-bootstrap';
-import Board from "../components/Board";
+import { Button, Modal } from 'react-bootstrap';
 import NewBoard from "../components/NewBoard";
 import BoardIcon from '../components/BoardIcon';
 
@@ -24,19 +23,6 @@ const Boards = () => {
         };
         fetchBoards()
     }, []);
-
-    // list the boards
-    // let boardList;
-
-    // if (boards) {
-    //     console.log('boards! ', boards)
-    //     // boardList = boards.map((board, index) => {
-    //       return (
-    //           <BoardIcon boards={boards} />
-    //       );
-    //     // });
-    // };
-    // console.log(boardList)
 
     // for add new board modal
     const [showModal, setShowModal] = useState(false);
