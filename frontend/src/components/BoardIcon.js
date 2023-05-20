@@ -1,8 +1,10 @@
+// import what you need
 import { Card, Container, Row, Col } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
+
 const BoardIcon = ({ boards }) => {
-    console.log('boards: ', boards)
+    
     // display board icon
     return (
         <Container>

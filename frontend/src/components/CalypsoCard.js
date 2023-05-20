@@ -7,7 +7,7 @@ import NewTask from './NewTask';
 
 function CalypsoCard({ title }) {
     
-    // for add new task modal
+    // add new task modal
     const [showModal, setShowModal] = useState(false);
     const handleShowModal = () => {
         setShowModal(true);
@@ -19,28 +19,28 @@ function CalypsoCard({ title }) {
     return (
         <div>
             <Container>
-            <Card style={{width: "300px"}}>
-                <Card.Title>{title}</Card.Title>
-                <Task task="this is a task" />
-            <Card.Footer>
-            <Button variant="primary" onClick={handleShowModal}>
-                    Add New Task
-            </Button>
-            </Card.Footer>
-            </Card>
-            <Modal show={showModal} onHide={handleCloseModal}>
-                <Modal.Header closeButton>
-                    <Modal.Title>Create a New Task</Modal.Title>
-                </Modal.Header>
-            <Modal.Body>
-                <NewTask />
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="secondary" onClick={handleCloseModal}>
-                    Cancel
-                </Button>
-            </Modal.Footer>
-            </Modal>
+                <Card style={{width: "300px"}}>
+                    <Card.Title>{title}</Card.Title>
+                    <Task task="this is a task" />
+                    <Card.Footer>
+                    <Button variant="primary" onClick={handleShowModal}>
+                            Add New Task
+                    </Button>
+                    </Card.Footer>
+                </Card>
+                <Modal show={showModal} onHide={handleCloseModal}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Create a New Task</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <NewTask />
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="secondary" onClick={handleCloseModal}>
+                            Cancel
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </div> 
     )
