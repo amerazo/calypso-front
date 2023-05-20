@@ -1,0 +1,27 @@
+.about-us-container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+  }
+  
+  .developers-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin-top: 20px;
+  }
+  
+  .developer-card {
+    width: 250px;
+    padding: 10px;
+    margin: 10px;
+    background-color: blue;
+    border-radius: 8px;
+  }
+  
+  .developer-card h3 {
+    margin-top: 10px;
+  }
+  
