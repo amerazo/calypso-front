@@ -6,8 +6,6 @@ const NewTask = () => {
     
     // set up tasks and states
     const [task, setTask] = useState("");
-    const [cardID, setCardID] = useState("")
-    const [rowState, setRowState] = useState("");
 
     // state updater
     const onChangeHandler = (e, setValue) => {
@@ -17,9 +15,7 @@ const NewTask = () => {
     const onSubmitHandler = async (e) => {
         e.preventDefault();
         const newTask = {
-            task: task,
-            row: rowState,
-            card: cardID
+            task: task
     };
     console.log("New Task, yo: ", newTask);
     }
