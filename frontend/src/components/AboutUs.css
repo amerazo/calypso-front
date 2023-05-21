@@ -14,10 +14,10 @@
   }
   
   .developer-card {
-    width: 250px;
-    padding: 10px;
+    width: 800px;
+    padding: 20px;
     margin: 10px;
-    background-color: blue;
+    background-color: #267988;
     border-radius: 8px;
   }
   
@@ -25,3 +25,13 @@
     margin-top: 10px;
   }
   
+
+  img{
+    height: 400px;
+    width: 400px;
+    border-radius: 50%;
+    border: solid black 2px;
+  }
+  /* .dev-cards {
+    display: ;
+  } */
