@@ -17,6 +17,7 @@ const NewCalCard = ({ id, handleAddCard, handleCloseModal }) => {
       boardId: id,
       tasks: []
     };
+    console.log('boardId: ', id);
     console.log("New Card: ", newCalCard);
     
     handleAddCard(newCalCard);
@@ -32,7 +33,7 @@ const NewCalCard = ({ id, handleAddCard, handleCloseModal }) => {
     };
 
     try {
-      const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${id}/cards`, options);
+      const responseData = await fetch(`http://localhost:4000/boards/${id}/cards`, options);
       console.log(responseData, "this is response data");
       if (responseData.ok) {
         const newCardObj = await responseData.json();

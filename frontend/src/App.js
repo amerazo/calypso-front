@@ -1,4 +1,4 @@
-// import route and our components
+// import routes, components, other stuff
 import "./index.css";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
@@ -7,7 +7,7 @@ import Header from "./components/Header";
 import Boards from "./pages/Boards";
 import Home from "./pages/Home";
 import About from "./pages/About";
-import Board from "./components/Board";
+import Board from "./pages/Board";
 
 
 function App() {

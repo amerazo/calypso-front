@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
-import NewCalCard from './NewCalCard';
-import CalypsoCard from "./CalypsoCard";
+import NewCalCard from '../components/NewCalCard';
+import CalypsoCard from "../components/CalypsoCard";
 
 
 const Board = (props) => {
@@ -15,41 +15,47 @@ const Board = (props) => {
     const [editedTitle, setEditedTitle] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { id } = useParams();
-    console.log('id: ', id);
+    const { id } = useParams(); // get board_id
+    console.log('boardId: ', id);
 
-    const URL = `https://calypso-back-end.onrender.com/boards/${id}`; // board_id route
+    const boardURL = `http://localhost:4000/boards/${id}`; // board_id route
+    const cardsURL = `${boardURL}/cards`; // cards endpoint for the board
 
-    // board data - title and card ids
+    // function to fetch board data
+    const fetchBoardData = async() => {
+        try {
+            let responseData = await fetch(boardURL);
+            let boardData = await responseData.json();
+            console.log('boardData: ', boardData);
+            setMyBoard(boardData);
+            setEditedTitle(boardData.title);
+        } catch (error) {
+            console.log('Error fetching board data: ', error)
+        }
+    };
+
+    // function to fetch card data 
+    const fetchCardsData = async () => {
+        try {
+            const response = await fetch(cardsURL);
+            const cardsData = await response.json();
+            setCards(cardsData);
+        } catch (error) {
+            console.log('Error fetching cards: ', error);
+        }
+    };
+
+    // fetch board data on initial component mount and whenever the 'id' parameter changes
     useEffect(() => {
-        console.log("board_ useEffect ran");
-        const fetchBoard = async() => {
-            try {
-                let responseData = await fetch(URL);
-                let boardData = await responseData.json();
-                console.log('boardData: ', boardData);
-                setMyBoard(boardData);
-                setEditedTitle(boardData.title);
-            } catch (error) {}
-        };
-        fetchBoard()
-    }, []);
+        console.log('board_ useEffect ran');
+        fetchBoardData();
+    }, [id]);
 
-    // card data 
+    // fetch cards data whenever the 'id' parameter changes
     useEffect(() => {
-        console.log("cards useEffect ran");
-        const fetchCards = async () => {
-            try {
-                const response = await fetch(`${URL}/cards`);
-                const cardsData = await response.json();
-                const filteredCards = cardsData.filter(card => card.boardId === id); // filter cards by boardId
-                setCards(filteredCards);
-            } catch (error) {
-                console.log('Error fetching cards: ', error);
-            }
-        };
-        fetchCards();
-    }, []);
+        console.log('cards useEffect ran');
+        fetchCardsData();
+    }, [id]);
 
     // handle board title update
     const handleUpdateTitle = async () => {
@@ -61,7 +67,7 @@ const Board = (props) => {
                 },
                 body: JSON.stringify({ title: editedTitle })
             };
-            const responseData = await fetch(URL, options);
+            const responseData = await fetch(boardURL, options);
             if (!responseData.ok) {
                 throw new Error ('Failed to update board title');
             }
@@ -83,7 +89,7 @@ const Board = (props) => {
     };
     const handleCloseModal = () => {
         setIsModalOpen(false);
-    };
+    };      
 
     // board_ page
     return (

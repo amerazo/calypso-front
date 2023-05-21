@@ -9,7 +9,7 @@ const Boards = () => {
     
     // set up states
     const [boards, setBoards] = useState(null);
-    const URL = "https://calypso-back-end.onrender.com/boards/";
+    const URL = "http://localhost:4000/boards";
     useEffect(() => {
         console.log("boards useEffect ran");
         const fetchBoards = async() => {

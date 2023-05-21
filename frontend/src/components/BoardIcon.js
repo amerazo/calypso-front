@@ -14,7 +14,7 @@ const BoardIcon = ({ boards }) => {
                 'Content-Type': 'application/json'
             }
         };
-        const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardID}`, options);
+        const responseData = await fetch(`http://localhost:4000/boards/${boardID}`, options);
         console.log('board deleted');
         if (!responseData.ok) {
             throw new Error('Failed to delete board');
@@ -37,7 +37,6 @@ const BoardIcon = ({ boards }) => {
                         <Link to={`/boards/${board._id}`} style={{ textDecoration: 'none' }}>
                             <Card.Title>{board.title}</Card.Title>
                         </Link>
-                        <Card.Img src="" />
                             <h3>image</h3>
                         <Button onClick={() => handleDeleteBoard(board._id)} className="mt-2">
                                 Delete
