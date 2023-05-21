@@ -8,17 +8,19 @@ import CalypsoCard from "./CalypsoCard";
 
 const Board = (props) => {
 
-    // get the board
+    // set up states
     const [myBoard, setMyBoard] = useState(null);
-    const [newCardData, setNewCardData] = useState(null);
+    const [cards, setCards] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const { id } = useParams();
     console.log('id: ', id);
 
-    const URL = `https://calypso-back-end.onrender.com/boards/${id}`; // board_id routes
+    const URL = `https://calypso-back-end.onrender.com/boards/${id}`; // board_id route
 
+    // board data - title and card ids
     useEffect(() => {
         console.log("board_ useEffect ran");
         const fetchBoard = async() => {
@@ -31,6 +33,22 @@ const Board = (props) => {
             } catch (error) {}
         };
         fetchBoard()
+    }, []);
+
+    // card data 
+    useEffect(() => {
+        console.log("cards useEffect ran");
+        const fetchCards = async () => {
+            try {
+                const response = await fetch(`${URL}/cards`);
+                const cardsData = await response.json();
+                const filteredCards = cardsData.filter(card => card.boardId === id); // filter cards by boardId
+                setCards(filteredCards);
+            } catch (error) {
+                console.log('Error fetching cards: ', error);
+            }
+        };
+        fetchCards();
     }, []);
 
     // handle board title update
@@ -54,14 +72,17 @@ const Board = (props) => {
         }
     };
 
+    // new card handle
+    const handleAddCard = (newCard) => {
+        setCards([...cards, newCard]);
+    };
+
     // for add new card modal
-    const [showModal, setShowModal] = useState(false);
     const handleShowModal = () => {
-        setShowModal(true);
+        setIsModalOpen(true);
     };
     const handleCloseModal = () => {
-        setNewCardData({ title: '', tasks: [] });
-        setShowModal(false);
+        setIsModalOpen(false);
     };
 
     // board_ page
@@ -94,12 +115,12 @@ const Board = (props) => {
             <Button variant="primary" onClick={handleShowModal}>
                 Add New Card
             </Button>
-            <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal show={isModalOpen} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create a New Card</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <NewCalCard id={id} />
+                    <NewCalCard id={id} handleAddCard={handleAddCard} handleCloseModal={handleCloseModal} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
@@ -109,8 +130,11 @@ const Board = (props) => {
             </Modal>  
             
             {/* existing cards */}
-            <CalypsoCard title="this is a card" />
-                 
+            {/* <CalypsoCard title="this is a card" /> */}
+
+            {cards.map((card) => (
+                <CalypsoCard key={card.id} title={card.title} />
+            ))}    
         </div>
     )
 };

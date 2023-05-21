@@ -7,7 +7,7 @@ import BoardIcon from '../components/BoardIcon';
 
 const Boards = () => {
     
-    // get the boards
+    // set up states
     const [boards, setBoards] = useState(null);
     const URL = "https://calypso-back-end.onrender.com/boards/";
     useEffect(() => {
@@ -36,8 +36,7 @@ const Boards = () => {
     // boards page
     return (
         <div>
-            <h1>Boards Page</h1>
-            <h3>My Boards</h3>
+            <h1>My Boards</h1>
             
             {/* existing boards */}
             {boards ? <BoardIcon boards={boards} /> : <h2>LOADING.. </h2>}
