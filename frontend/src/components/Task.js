@@ -6,7 +6,6 @@ function Task({ task }) {
         <div>
             <Card style={{ align: "center", padding: "10px", width: "290px"}}>
                 <Card.Text>{task}</Card.Text>
-                    <Card.Img src="" />
             </Card>
         </div> 
     )

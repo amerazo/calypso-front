@@ -6,15 +6,16 @@ import { Link } from 'react-router-dom';
 const BoardIcon = ({ boards }) => {
     
     // delete board
-    const handleDeleteBoard = async (boardID) => {
-       try {
+    const handleDeleteBoard = async (boardId) => {
+        console.log('BoardIcon boardId: ', boardId)
+        try {
         const options = {
             method: 'DELETE', 
             headers: {
                 'Content-Type': 'application/json'
             }
         };
-        const responseData = await fetch(`http://localhost:4000/boards/${boardID}`, options);
+        const responseData = await fetch(`http://localhost:4000/boards/${boardId}`, options);
         console.log('board deleted');
         if (!responseData.ok) {
             throw new Error('Failed to delete board');

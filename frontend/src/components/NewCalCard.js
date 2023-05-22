@@ -2,7 +2,8 @@
 import React, { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
-const NewCalCard = ({ id, handleAddCard, handleCloseModal }) => {
+const NewCalCard = ({ boardId, handleAddCard, handleCloseModal }) => {
+  console.log('NewCalCard boardId: ', boardId)
   const [titleState, setTitleState] = useState("");
 
   const onChangeHandler = (e, setValue) => {
@@ -14,13 +15,12 @@ const NewCalCard = ({ id, handleAddCard, handleCloseModal }) => {
 
     const newCalCard = {
       title: titleState,
-      boardId: id,
+      boardId: boardId,
       tasks: []
     };
-    console.log('boardId: ', id);
+    console.log('boardId: ', boardId);
     console.log("New Card: ", newCalCard);
     
-    handleAddCard(newCalCard);
     setTitleState('');
     handleCloseModal();
     
@@ -33,11 +33,12 @@ const NewCalCard = ({ id, handleAddCard, handleCloseModal }) => {
     };
 
     try {
-      const responseData = await fetch(`http://localhost:4000/boards/${id}/cards`, options);
+      const responseData = await fetch(`http://localhost:4000/boards/${boardId}/cards`, options);
       console.log(responseData, "this is response data");
       if (responseData.ok) {
         const newCardObj = await responseData.json();
         console.log(newCardObj);
+        handleAddCard(newCardObj);
       } else {
         console.log('Failed to create card:', responseData.status);
       }

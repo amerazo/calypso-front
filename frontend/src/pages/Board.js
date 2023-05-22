@@ -15,10 +15,10 @@ const Board = (props) => {
     const [editedTitle, setEditedTitle] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { id } = useParams(); // get board_id
-    console.log('boardId: ', id);
+    const { boardId } = useParams(); // get board_id
+    console.log('boardId: ', boardId);
 
-    const boardURL = `http://localhost:4000/boards/${id}`; // board_id route
+    const boardURL = `http://localhost:4000/boards/${boardId}`; // board_id route
     const cardsURL = `${boardURL}/cards`; // cards endpoint for the board
 
     // function to fetch board data
@@ -45,17 +45,18 @@ const Board = (props) => {
         }
     };
 
-    // fetch board data on initial component mount and whenever the 'id' parameter changes
+    // fetch board and card data on initial component mount and whenever the 'id' parameter changes
     useEffect(() => {
         console.log('board_ useEffect ran');
         fetchBoardData();
-    }, [id]);
+        fetchCardsData();
+    }, [boardId]);
 
     // fetch cards data whenever the 'id' parameter changes
     useEffect(() => {
         console.log('cards useEffect ran');
         fetchCardsData();
-    }, [id]);
+    }, [boardId]);
 
     // handle board title update
     const handleUpdateTitle = async () => {
@@ -126,7 +127,7 @@ const Board = (props) => {
                     <Modal.Title>Create a New Card</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <NewCalCard id={id} handleAddCard={handleAddCard} handleCloseModal={handleCloseModal} />
+                    <NewCalCard boardId={boardId} handleAddCard={handleAddCard} handleCloseModal={handleCloseModal} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
@@ -136,11 +137,8 @@ const Board = (props) => {
             </Modal>  
             
             {/* existing cards */}
-            {/* <CalypsoCard title="this is a card" /> */}
-
-            {cards.map((card) => (
-                <CalypsoCard key={card.id} title={card.title} />
-            ))}    
+            
+            {cards ? <CalypsoCard cards={cards} boardId={boardId} /> : <h2>LOADING.. </h2>}
         </div>
     )
 };
