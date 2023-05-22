@@ -21,7 +21,7 @@ function CalypsoCard({ boardId, cards }) {
                  'Content-Type': 'application/json'
              }
          };
-         const responseData = await fetch(`http://localhost:4000/boards/${boardId}/cards/${cardId}`, options);
+         const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardId}/cards/${cardId}`, options);
          console.log('card deleted');
          if (!responseData.ok) {
              throw new Error('Failed to delete card');
