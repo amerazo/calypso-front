@@ -1,20 +1,22 @@
-// import what you need
+// import the things we need
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-
+// create component, pass props
 const BoardIcon = ({ boards }) => {
     
     // delete board
-    const handleDeleteBoard = async (boardID) => {
-       try {
+    const handleDeleteBoard = async (boardId) => {
+        // in case boardId is undefined
+        console.log('BoardIcon boardId: ', boardId)
+        try {
         const options = {
             method: 'DELETE', 
             headers: {
                 'Content-Type': 'application/json'
             }
         };
-        const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardID}`, options);
+        const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardId}`, options);
         console.log('board deleted');
         if (!responseData.ok) {
             throw new Error('Failed to delete board');
@@ -37,7 +39,6 @@ const BoardIcon = ({ boards }) => {
                         <Link to={`/boards/${board._id}`} style={{ textDecoration: 'none' }}>
                             <Card.Title>{board.title}</Card.Title>
                         </Link>
-                        <Card.Img src="" />
                             <h3>image</h3>
                         <Button onClick={() => handleDeleteBoard(board._id)} className="mt-2">
                                 Delete

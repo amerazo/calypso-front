@@ -1,3 +1,5 @@
+// imports 
+// https://mdbootstrap.com/docs/react/navigation/footer/ - footers and headers
 import { Container, Row, Col } from 'react-bootstrap';
 import { FaLinkedin } from 'react-icons/fa';
 
@@ -12,19 +14,19 @@ function Footer() {
         </Row>
         <Row className="justify-content-center">
           <Col xs="auto" className="text-center">
-            <a href="https://www.linkedin.com/in/chloe-rodriguez1/" target="_blank" style={{color: '#1f628e', textDecoration: 'none'}}>
+            <a href="https://www.linkedin.com/in/chloe-rodriguez1/" rel="noreferrer" target="_blank" style={{color: '#1f628e', textDecoration: 'none'}}>
               <FaLinkedin size={30} />
               <p>Chloe</p>
             </a>
           </Col>
           <Col xs="auto" className="text-center">
-            <a href="https://www.linkedin.com/in/angelicaerazo/" target="_blank" style={{color: '#1f628e', textDecoration: 'none'}}>
+            <a href="https://www.linkedin.com/in/angelicaerazo/" rel="noreferrer" target="_blank" style={{color: '#1f628e', textDecoration: 'none'}}>
               <FaLinkedin size={30} />
               <p>Angelica</p>
             </a>
           </Col>
           <Col xs="auto" className="text-center">
-            <a href="https://www.linkedin.com/in/laura-ostering-2141a315a/" target="_blank" style={{color: '#1f628e', textDecoration: 'none'}}>
+            <a href="https://www.linkedin.com/in/laura-ostering-2141a315a/" rel="noreferrer" target="_blank" style={{color: '#1f628e', textDecoration: 'none'}}>
               <FaLinkedin size={30} />
               <p>Laura</p>
             </a>

@@ -1,11 +1,11 @@
-// import all the things you need
+// import the things we need
 import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 
+// create component, pass props
+const NewBoard = (props) => {
 
-const NewBoard = () => {
-
-  // set up board and state
+  // set up states
   const [titleState, setTitleState] = useState("");
   // const [backgroundState, setBackgroundState] = useState("");
 
@@ -22,9 +22,7 @@ const NewBoard = () => {
         title: titleState,
         // image: backgroundState
     };
-
     console.log("New Board, yo: ", newBoard);
-
     const options = {
         method: 'POST',
         headers: {
@@ -32,13 +30,11 @@ const NewBoard = () => {
         }, 
         body: JSON.stringify(newBoard)
     };
-
     const responseData = await fetch("https://calypso-back-end.onrender.com/boards", options);
-
     const newBoardObj = await responseData.json();
     console.group(newBoardObj);
-
   };
+
   // form to create new Board
   return (
     <div className="newboard">

@@ -1,15 +1,18 @@
-// import the stuff you need
+// import the things we need
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
 import NewBoard from "../components/NewBoard";
 import BoardIcon from '../components/BoardIcon';
 
-const Boards = () => {
+// create component, pass props
+const Boards = (props) => {
     
-    // get the boards
+    // set up states
     const [boards, setBoards] = useState(null);
-    const URL = "https://calypso-back-end.onrender.com/boards/";
+    const URL = "https://calypso-back-end.onrender.com/boards";
+
+    // get the boards
     useEffect(() => {
         console.log("boards useEffect ran");
         const fetchBoards = async() => {
@@ -36,8 +39,7 @@ const Boards = () => {
     // boards page
     return (
         <div>
-            <h1>Boards Page</h1>
-            <h3>My Boards</h3>
+            <h1>My Boards</h1>
             
             {/* existing boards */}
             {boards ? <BoardIcon boards={boards} /> : <h2>LOADING.. </h2>}

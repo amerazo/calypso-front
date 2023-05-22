@@ -1,37 +1,65 @@
-// import the things you need
+// import the things we need
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
-import NewCalCard from './NewCalCard';
-import CalypsoCard from "./CalypsoCard";
+import NewCalCard from '../components/NewCalCard';
+import CalypsoCard from "../components/CalypsoCard";
 
-
+// create component, pass props
 const Board = (props) => {
 
-    // get the board
+    // set up states
     const [myBoard, setMyBoard] = useState(null);
-    const [newCardData, setNewCardData] = useState(null);
+    const [cards, setCards] = useState([]);
     const [editMode, setEditMode] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { id } = useParams();
-    console.log('id: ', id);
+    // get boardId
+    const { boardId } = useParams(); 
+    console.log('boardId: ', boardId);
 
-    const URL = `https://calypso-back-end.onrender.com/boards/${id}`; // board_id routes
+    // specific board route
+    const boardURL = `https://calypso-back-end.onrender.com/boards/${boardId}`; 
+    // cards endpoint for the board
+    const cardsURL = `${boardURL}/cards`; 
 
+    // function to fetch board data
+    const fetchBoardData = async() => {
+        try {
+            let responseData = await fetch(boardURL);
+            let boardData = await responseData.json();
+            console.log('boardData: ', boardData);
+            setMyBoard(boardData);
+            setEditedTitle(boardData.title);
+        } catch (error) {
+            console.log('Error fetching board data: ', error)
+        }
+    };
+
+    // function to fetch card data 
+    const fetchCardsData = async () => {
+        try {
+            const response = await fetch(cardsURL);
+            const cardsData = await response.json();
+            setCards(cardsData);
+        } catch (error) {
+            console.log('Error fetching cards: ', error);
+        }
+    };
+
+    // fetch board and card data on initial component mount and whenever the 'id' parameter changes
     useEffect(() => {
-        console.log("board_ useEffect ran");
-        const fetchBoard = async() => {
-            try {
-                let responseData = await fetch(URL);
-                let boardData = await responseData.json();
-                console.log('boardData: ', boardData);
-                setMyBoard(boardData);
-                setEditedTitle(boardData.title);
-            } catch (error) {}
-        };
-        fetchBoard()
-    }, []);
+        console.log('board_ useEffect ran');
+        fetchBoardData();
+        fetchCardsData();
+    }, [boardId]);
+
+    // fetch cards data whenever the boardId parameter changes
+    useEffect(() => {
+        console.log('cards useEffect ran');
+        fetchCardsData();
+    }, [boardId]);
 
     // handle board title update
     const handleUpdateTitle = async () => {
@@ -43,7 +71,7 @@ const Board = (props) => {
                 },
                 body: JSON.stringify({ title: editedTitle })
             };
-            const responseData = await fetch(URL, options);
+            const responseData = await fetch(boardURL, options);
             if (!responseData.ok) {
                 throw new Error ('Failed to update board title');
             }
@@ -54,17 +82,20 @@ const Board = (props) => {
         }
     };
 
-    // for add new card modal
-    const [showModal, setShowModal] = useState(false);
-    const handleShowModal = () => {
-        setShowModal(true);
-    };
-    const handleCloseModal = () => {
-        setNewCardData({ title: '', tasks: [] });
-        setShowModal(false);
+    // new card handle
+    const handleAddCard = (newCard) => {
+        setCards([...cards, newCard]);
     };
 
-    // board_ page
+    // for add new card modal
+    const handleShowModal = () => {
+        setIsModalOpen(true);
+    };
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };      
+
+    // my board page
     return (
         <div>
             {/* title and edit title */}
@@ -94,12 +125,12 @@ const Board = (props) => {
             <Button variant="primary" onClick={handleShowModal}>
                 Add New Card
             </Button>
-            <Modal show={showModal} onHide={handleCloseModal}>
+            <Modal show={isModalOpen} onHide={handleCloseModal}>
                 <Modal.Header closeButton>
                     <Modal.Title>Create a New Card</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <NewCalCard id={id} />
+                    <NewCalCard boardId={boardId} handleAddCard={handleAddCard} handleCloseModal={handleCloseModal} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleCloseModal}>
@@ -109,8 +140,7 @@ const Board = (props) => {
             </Modal>  
             
             {/* existing cards */}
-            <CalypsoCard title="this is a card" />
-                 
+            {cards ? <CalypsoCard cards={cards} boardId={boardId} /> : <h2>LOADING.. </h2>}
         </div>
     )
 };
