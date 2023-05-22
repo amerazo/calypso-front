@@ -1,12 +1,13 @@
-// import what you need
+// import the things we need
 import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-
+// create component, pass props
 const BoardIcon = ({ boards }) => {
     
     // delete board
     const handleDeleteBoard = async (boardId) => {
+        // in case boardId is undefined
         console.log('BoardIcon boardId: ', boardId)
         try {
         const options = {

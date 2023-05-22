@@ -1,4 +1,4 @@
-// import routes, components, other stuff
+// import the things we need
 import "./index.css";
 import { Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
@@ -10,7 +10,7 @@ import About from "./pages/About";
 import Board from "./pages/Board";
 
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <Header />

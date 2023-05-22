@@ -1,15 +1,18 @@
-// import the stuff you need
+// import the things we need
 import { useEffect, useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
 import NewBoard from "../components/NewBoard";
 import BoardIcon from '../components/BoardIcon';
 
-const Boards = () => {
+// create component, pass props
+const Boards = (props) => {
     
     // set up states
     const [boards, setBoards] = useState(null);
     const URL = "http://localhost:4000/boards";
+
+    // get the boards
     useEffect(() => {
         console.log("boards useEffect ran");
         const fetchBoards = async() => {

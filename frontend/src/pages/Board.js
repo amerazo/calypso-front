@@ -1,11 +1,11 @@
-// import the things you need
+// import the things we need
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 import NewCalCard from '../components/NewCalCard';
 import CalypsoCard from "../components/CalypsoCard";
 
-
+// create component, pass props
 const Board = (props) => {
 
     // set up states
@@ -15,11 +15,14 @@ const Board = (props) => {
     const [editedTitle, setEditedTitle] = useState('');
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { boardId } = useParams(); // get board_id
+    // get boardId
+    const { boardId } = useParams(); 
     console.log('boardId: ', boardId);
 
-    const boardURL = `http://localhost:4000/boards/${boardId}`; // board_id route
-    const cardsURL = `${boardURL}/cards`; // cards endpoint for the board
+    // specific board route
+    const boardURL = `http://localhost:4000/boards/${boardId}`; 
+    // cards endpoint for the board
+    const cardsURL = `${boardURL}/cards`; 
 
     // function to fetch board data
     const fetchBoardData = async() => {
@@ -52,7 +55,7 @@ const Board = (props) => {
         fetchCardsData();
     }, [boardId]);
 
-    // fetch cards data whenever the 'id' parameter changes
+    // fetch cards data whenever the boardId parameter changes
     useEffect(() => {
         console.log('cards useEffect ran');
         fetchCardsData();
@@ -92,7 +95,7 @@ const Board = (props) => {
         setIsModalOpen(false);
     };      
 
-    // board_ page
+    // my board page
     return (
         <div>
             {/* title and edit title */}
@@ -137,7 +140,6 @@ const Board = (props) => {
             </Modal>  
             
             {/* existing cards */}
-            
             {cards ? <CalypsoCard cards={cards} boardId={boardId} /> : <h2>LOADING.. </h2>}
         </div>
     )

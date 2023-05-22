@@ -1,26 +1,28 @@
-// import all the things you need
+// import the things we need
 import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 
-const NewTask = () => {
+// create component, pass props
+const NewTask = (props) => {
     
     // set up tasks and states
     const [task, setTask] = useState("");
 
-    // state updater
+    // when typing into form
     const onChangeHandler = (e, setValue) => {
-        console.log(e.target);
         setValue(e.target.value);
     }
+    // when submitting form
     const onSubmitHandler = async (e) => {
-        e.preventDefault();
-        const newTask = {
-            task: task
-    };
-    console.log("New Task, yo: ", newTask);
+      // don't reload
+      e.preventDefault();
+      const newTask = {
+          task: task
+      };
+      console.log("New Task, yo: ", newTask);
     }
 
-    // form to create new Task
+    // form to create new task
     return (
       <div className="newtask">
         <Form onSubmit={onSubmitHandler}>

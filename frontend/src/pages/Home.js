@@ -1,8 +1,9 @@
-// import bootstrap stuff
+// import the things we need
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Container } from 'react-bootstrap'; 
 
-function Home(props) {
+// create component, pass props
+const Home = (props) => {
 
     // home page
     return (
