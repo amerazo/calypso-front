@@ -30,7 +30,7 @@ const NewBoard = (props) => {
         }, 
         body: JSON.stringify(newBoard)
     };
-    const responseData = await fetch("https://calypso-back-end.onrender.com/boards", options);
+    const responseData = await fetch("http://localhost:4000/boards", options);
     const newBoardObj = await responseData.json();
     console.group(newBoardObj);
   };

@@ -20,7 +20,7 @@ const Board = (props) => {
     console.log('boardId: ', boardId);
 
     // specific board route
-    const boardURL = `https://calypso-back-end.onrender.com/boards/${boardId}`; 
+    const boardURL = `http://localhost:4000/boards/${boardId}`; 
     // cards endpoint for the board
     const cardsURL = `${boardURL}/cards`; 
 
