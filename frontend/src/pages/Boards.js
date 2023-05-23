@@ -14,13 +14,10 @@ const Boards = (props) => {
 
     // get the boards
     useEffect(() => {
-        console.log("boards useEffect ran");
         const fetchBoards = async() => {
             try {
                 let responseData = await fetch(URL);
                 let allBoards = await responseData.json();
-                console.log(responseData);
-                console.log(allBoards);
                 setBoards(allBoards);
             } catch (error) {}
         };

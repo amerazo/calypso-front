@@ -14,8 +14,6 @@ const CalypsoCard = ({ boardId, cards }) => {
 
     // delete card
     const handleDeleteCard = async (cardId) => {
-        // in case cardId is undefined
-        console.log(cardId);
         try {
          const options = {
              method: 'DELETE', 

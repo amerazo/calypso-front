@@ -39,7 +39,6 @@ const NewCalCard = ({ boardId, handleAddCard, handleCloseModal }) => {
       console.log(responseData, "this is response data");
       if (responseData.ok) {
         const newCardObj = await responseData.json();
-        console.log(newCardObj);
         // updates the cards with new card
         handleAddCard(newCardObj);
       } else {

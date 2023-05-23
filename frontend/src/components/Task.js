@@ -20,7 +20,6 @@ const Task = ({ cardId, boardId, tasks }) => {
                 throw new Error ('Failed to get tasks.');
             }
             const tasksData = await response.json();
-            console.log("TasksData: ", tasksData);
             setTaskState(tasksData);
         } catch (error) {
             console.log('Error fetching tasks: ', error);
@@ -29,7 +28,6 @@ const Task = ({ cardId, boardId, tasks }) => {
 
     // fetch tasks data
     useEffect(() => {
-        console.log('tasks useEffect ran');
         fetchTasksData();
     }, []);
 
@@ -67,10 +65,6 @@ const Task = ({ cardId, boardId, tasks }) => {
                 </Card>
                 </Col>
             ))}
-            {/* task hardcode example card */}
-            {/* <Card style={{ align: "center", padding: "10px", width: "290px"}}>
-                <Card.Text>{task}</Card.Text>
-            </Card> */}
         </div> 
     )
 };

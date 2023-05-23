@@ -5,7 +5,7 @@ import { Form, Button } from 'react-bootstrap';
 // create component, pass props
 const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
 
-  // set up tasks and states
+  // set up states
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
   const [localCardId, setLocalCardId] = useState(cardId);
@@ -14,7 +14,6 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
   const onChangeHandler = (e, setValue) => {
       setValue(e.target.value);
   };
-
   // when form is submitted
   const onSubmitHandler = async (e) => {
     // don't reload
@@ -22,9 +21,8 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
     const newTask = {
         title: taskTitle,
         description: taskDesc,
-        card: localCardId
+        cardId: localCardId
     };
-    console.log('cardId: ', localCardId);
     console.log("New Task, yo: ", newTask);
   // set the task title state
   setTaskTitle('');
@@ -40,10 +38,8 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
   };
   try {
     const responseData = await fetch (`http://localhost:4000/boards/${boardId}/cards/${cardId}/tasks`, options);
-    console.log(responseData, 'this is response data');
     if (responseData.ok) {
       const newTaskObj = await responseData.json();
-      console.log(newTaskObj);
       // updates the tasks with new task
       handleAddTask(newTaskObj);
     } else {

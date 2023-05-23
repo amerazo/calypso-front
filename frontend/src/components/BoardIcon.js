@@ -7,8 +7,6 @@ const BoardIcon = ({ boards }) => {
     
     // delete board
     const handleDeleteBoard = async (boardId) => {
-        // in case boardId is undefined
-        console.log('BoardIcon boardId: ', boardId)
         try {
         const options = {
             method: 'DELETE', 
