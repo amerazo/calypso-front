@@ -1,17 +1,14 @@
 // import the things we need
-import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
+import { Form, Button } from 'react-bootstrap';
 
 // create component, pass props
 const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
 
-  // in case cardId is undefined
-  console.log('NewTask cardId: ', cardId)
-  console.log('New Task boardId: ', boardId);
-
   // set up tasks and states
   const [taskTitle, setTaskTitle] = useState("");
   const [taskDesc, setTaskDesc] = useState("");
+  const [localCardId, setLocalCardId] = useState(cardId);
 
   // when typing into form
   const onChangeHandler = (e, setValue) => {
@@ -24,9 +21,10 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
     e.preventDefault();
     const newTask = {
         title: taskTitle,
-        description: taskDesc
+        description: taskDesc,
+        card: localCardId
     };
-    console.log('cardId: ', cardId)
+    console.log('cardId: ', localCardId);
     console.log("New Task, yo: ", newTask);
   // set the task title state
   setTaskTitle('');
@@ -46,6 +44,8 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
     if (responseData.ok) {
       const newTaskObj = await responseData.json();
       console.log(newTaskObj);
+      // updates the tasks with new task
+      handleAddTask(newTaskObj);
     } else {
       console.log('Failed to create task', responseData.status);
     }
@@ -54,7 +54,7 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
   }
 }
 
-  // form to create new task
+  // new task form
   return (
     <div className="newtask">
       <Form onSubmit={onSubmitHandler}>

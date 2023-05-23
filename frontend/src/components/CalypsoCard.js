@@ -1,18 +1,16 @@
 // import the things we need
 import { Container, Card, Button, Modal, Col, Row } from 'react-bootstrap';
-// import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import Task from './Task';
 import NewTask from './NewTask';
 
 // create component, pass props
 const CalypsoCard = ({ boardId, cards }) => {
-    
-    // in case boardId undefined
-    console.log('CalypsoCardboardId: ', boardId)
 
     // set up states
     const [tasks, setTasks] = useState([]);
+    // state for specific card modal
+    const [modalVisible, setModalVisible] = useState({});
 
     // delete card
     const handleDeleteCard = async (cardId) => {
@@ -40,17 +38,27 @@ const CalypsoCard = ({ boardId, cards }) => {
     // new task handle
     const handleAddTask = (newTask) => {
         setTasks([...tasks, newTask]);
+        // refresh page after adding new task
+        window.location.reload();
     };
     
     // add new task modal
-    const [showModal, setShowModal] = useState(false);
-    const handleShowModal = () => {
-        setShowModal(true);
+    const handleShowModal = (cardId) => {
+        // Set the modal visibility for the specific cardId to true
+        setModalVisible((prevModalVisible) => ({
+        ...prevModalVisible,
+        [cardId]: true,
+        }));
     };
-    const handleCloseModal = () => {
-        setShowModal(false);
+    const handleCloseModal = (cardId) => {
+        // Set the modal visibility for the specific cardId to false
+        setModalVisible((prevModalVisible) => ({
+        ...prevModalVisible,
+        [cardId]: false,
+      }));
     };
-    
+
+
     // display card
     return (
         <div>
@@ -60,27 +68,28 @@ const CalypsoCard = ({ boardId, cards }) => {
                     {cards.map((card) => (
                         <Col xs={12} md={4} key={card._id}>
                             <Card>
-                                <Card.Title>{card.title}</Card.Title>{tasks ? <Task boardId={boardId} cardId={card._id} tasks={tasks}/> : <h2>LOADING.. </h2>}
+                                <Card.Title>{card.title}</Card.Title>
+                                <Task boardId={boardId} cardId={card._id} tasks={card.tasks}/>
                                 {/* buttons in footer */}
                                 <Card.Footer>
                                 <Button onClick={() => handleDeleteCard(card._id)} className="mt-2">
                                     Delete Card
                                 </Button>
-                                <Button variant="primary" onClick={handleShowModal}>
+                                <Button variant="primary" onClick={() => handleShowModal(card._id)}>
                                     Add New Task
                                 </Button>
                                 </Card.Footer>
                             </Card>
                             {/* create NewTask modal */}
-                            <Modal show={showModal} onHide={handleCloseModal}>
+                            <Modal show={modalVisible[card._id]} onHide={() => handleCloseModal(card._id)}>
                                 <Modal.Header closeButton>
                                     <Modal.Title>Create a New Task</Modal.Title>
                                 </Modal.Header>
                                 <Modal.Body>
-                                    <NewTask cardId={card._id} boardId={boardId} handleAddTask={handleAddTask} handleCloseModal={handleCloseModal} />
+                                    <NewTask cardId={card._id} boardId={boardId} handleAddTask={handleAddTask} handleCloseModal={() => handleCloseModal(card._id)} />
                                 </Modal.Body>
                                 <Modal.Footer>
-                                <Button variant="secondary" onClick={handleCloseModal}>
+                                <Button variant="secondary" onClick={() => handleCloseModal(card._id)}>
                                     Cancel
                                 </Button>
                                 </Modal.Footer>
