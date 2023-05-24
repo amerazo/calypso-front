@@ -11,6 +11,44 @@ const CalypsoCard = ({ boardId, cards }) => {
     const [tasks, setTasks] = useState([]);
     // state for specific card modal
     const [modalVisible, setModalVisible] = useState({});
+    // for editing card title
+    const [editMode, setEditMode] = useState(false);
+    const [editedTitle, setEditedTitle] = useState('');
+
+    const cardsURL = `http://localhost:4000/boards/${boardId}/cards/`;
+
+    // handle entering edit mode
+    const enterEditMode = (cardId) => {
+        setEditMode(cardId);
+        setEditedTitle('');
+    };
+  
+    // handle exiting edit mode
+    const exitEditMode = () => {
+        setEditMode('');
+        setEditedTitle('');
+    };
+
+    // handle card title update
+    const handleUpdateCardTitle = async (cardId) => {
+        try {
+            const options = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ title: editedTitle })
+            };
+            const responseData = await fetch(`${cardsURL}/${cardId}`, options);
+            if (!responseData.ok) {
+                throw new Error ('Failed to update card title');
+            }
+            exitEditMode();
+            window.location.reload(); // refresh the page
+        } catch (error) {
+            console.log('Error updating  title: ', error);
+        }
+    };
 
     // delete card
     const handleDeleteCard = async (cardId) => {
@@ -21,7 +59,7 @@ const CalypsoCard = ({ boardId, cards }) => {
                  'Content-Type': 'application/json'
              }
          };
-         const responseData = await fetch(`http://localhost:4000/boards/${boardId}/cards/${cardId}`, options);
+         const responseData = await fetch(`${cardsURL}/${cardId}`, options);
          console.log('card deleted');
          if (!responseData.ok) {
              throw new Error('Failed to delete card');
@@ -66,8 +104,24 @@ const CalypsoCard = ({ boardId, cards }) => {
                     {cards.map((card) => (
                         <Col xs={12} md={4} key={card._id}>
                             <Card>
-                                <Card.Title>{card.title}</Card.Title>
+                            <Card.Title>
+                                {editMode === card._id ? (
+                                <input
+                                    type="text"
+                                    value={editedTitle}
+                                    onChange={(e) => setEditedTitle(e.target.value)}
+                                />
+                                ) : (
+                                <span onClick={() => enterEditMode(card._id)}>
+                                    {card.title}
+                                </span> )}
+                                {editMode === card._id && (
+                                <Button variant='primary' onClick={() => handleUpdateCardTitle(card._id)}>
+                                    Save
+                                </Button> )}
+                                </Card.Title>
                                 <Task boardId={boardId} cardId={card._id} tasks={card.tasks}/>
+
                                 {/* buttons in footer */}
                                 <Card.Footer>
                                 <Button onClick={() => handleDeleteCard(card._id)} className="mt-2">
