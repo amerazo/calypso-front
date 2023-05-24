@@ -15,7 +15,7 @@ const CalypsoCard = ({ boardId, cards }) => {
     const [editMode, setEditMode] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
 
-    const cardsURL = `http://localhost:4000/boards/${boardId}/cards/`;
+    const cardsURL = `https://calypso-back-end.onrender.com/boards/${boardId}/cards/`;
 
     // handle entering edit mode
     const enterEditMode = (cardId) => {

@@ -8,7 +8,7 @@ import './Task.css';
 const Task = ({ cardId, boardId, tasks }) => {
 
     // tasks URL
-    const tasksURL = `http://localhost:4000/boards/${boardId}/cards/${cardId}/tasks`;
+    const tasksURL = `https://calypso-back-end.onrender.com/boards/${boardId}/cards/${cardId}/tasks`;
 
     // set up states
     const [taskState, setTaskState] = useState([]);
@@ -43,7 +43,7 @@ const Task = ({ cardId, boardId, tasks }) => {
                     'Content-Type': 'application/json'
                 }
             }
-            const responseData = await fetch(`http://localhost:4000/boards/${boardId}/cards/${cardId}/tasks/${taskId}`, options);
+            const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardId}/cards/${cardId}/tasks/${taskId}`, options);
             console.log('task deleted')
             if (!responseData.ok) {
                 throw new Error('Failed to delete task');
