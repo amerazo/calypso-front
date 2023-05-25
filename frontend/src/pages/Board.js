@@ -17,7 +17,6 @@ const Board = (props) => {
 
     // get boardId
     const { boardId } = useParams(); 
-    console.log('boardId: ', boardId);
 
     // specific board route
     const boardURL = `https://calypso-back-end.onrender.com/boards/${boardId}`; 
@@ -29,7 +28,6 @@ const Board = (props) => {
         try {
             let responseData = await fetch(boardURL);
             let boardData = await responseData.json();
-            console.log('boardData: ', boardData);
             setMyBoard(boardData);
             setEditedTitle(boardData.title);
         } catch (error) {
@@ -48,16 +46,14 @@ const Board = (props) => {
         }
     };
 
-    // fetch board and card data on initial component mount and whenever the 'id' parameter changes
+    // fetch board and card data on initial component mount and whenever the id parameter changes
     useEffect(() => {
-        console.log('board_ useEffect ran');
         fetchBoardData();
         fetchCardsData();
     }, [boardId]);
 
     // fetch cards data whenever the boardId parameter changes
     useEffect(() => {
-        console.log('cards useEffect ran');
         fetchCardsData();
     }, [boardId]);
 

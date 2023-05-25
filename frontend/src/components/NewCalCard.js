@@ -1,12 +1,9 @@
 // import the things we need
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Form, Button } from 'react-bootstrap';
 
 // create component, pass props
 const NewCalCard = ({ boardId, handleAddCard, handleCloseModal }) => {
-
-  // in case boardId is undefined
-  console.log('NewCalCard boardId: ', boardId)
 
   // set up states
   const [titleState, setTitleState] = useState("");
@@ -25,8 +22,6 @@ const NewCalCard = ({ boardId, handleAddCard, handleCloseModal }) => {
       boardId: boardId,
       tasks: []
     };
-    console.log('boardId: ', boardId);
-    console.log("New Card: ", newCalCard);
     // set the card title state
     setTitleState('');
     // close the modal
@@ -44,7 +39,6 @@ const NewCalCard = ({ boardId, handleAddCard, handleCloseModal }) => {
       console.log(responseData, "this is response data");
       if (responseData.ok) {
         const newCardObj = await responseData.json();
-        console.log(newCardObj);
         // updates the cards with new card
         handleAddCard(newCardObj);
       } else {

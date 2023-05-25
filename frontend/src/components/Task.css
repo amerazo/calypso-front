@@ -1,0 +1,10 @@
+.btn-tiny {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.8rem;
+  }
+  
+  .btn-corner {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+  }
