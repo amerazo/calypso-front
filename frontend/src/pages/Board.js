@@ -1,7 +1,9 @@
 // import the things we need
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Container, Row } from 'react-bootstrap';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import NewCalCard from '../components/NewCalCard';
 import CalypsoCard from "../components/CalypsoCard";
 
@@ -19,7 +21,7 @@ const Board = (props) => {
     const { boardId } = useParams(); 
 
     // specific board route
-    const boardURL = `https://calypso-back-end.onrender.com/boards/${boardId}`; 
+    const boardURL = `http://localhost:4000/boards/${boardId}`; 
     // cards endpoint for the board
     const cardsURL = `${boardURL}/cards`; 
 
@@ -93,6 +95,7 @@ const Board = (props) => {
 
     // my board page
     return (
+        <DndProvider backend={HTML5Backend}>
         <div>
             {/* title and edit title */}
             {myBoard ? (
@@ -135,9 +138,16 @@ const Board = (props) => {
                 </Modal.Footer>
             </Modal>  
             
-            {/* existing cards */}
-            {cards ? <CalypsoCard cards={cards} boardId={boardId} /> : <h2>LOADING.. </h2>}
+            {/* cards */}
+            <Container>
+                <Row xs={12} md={4}>
+                    {cards.map((card) => (
+                        <CalypsoCard key={card._id} card={card} boardId={boardId} />
+                    ))}
+                </Row>
+            </Container>
         </div>
+        </DndProvider>
     )
 };
 

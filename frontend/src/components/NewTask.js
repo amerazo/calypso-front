@@ -26,7 +26,7 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
     console.log("New Task, yo: ", newTask);
   // set the task title state
   setTaskTitle('');
-  // close the modale
+  // close the modal
   handleCloseModal();
   // and post
   const options = {
@@ -37,11 +37,11 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
     body: JSON.stringify(newTask)
   };
   try {
-    const responseData = await fetch (`https://calypso-back-end.onrender.com/boards/${boardId}/cards/${cardId}/tasks`, options);
+    const responseData = await fetch (`http://localhost:4000/boards/${boardId}/cards/${cardId}/tasks`, options);
     if (responseData.ok) {
       const newTaskObj = await responseData.json();
       // updates the tasks with new task
-      handleAddTask(newTaskObj);
+      handleAddTask(newTaskObj, cardId);
     } else {
       console.log('Failed to create task', responseData.status);
     }

@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 
 // create component, pass props
 const NewCalCard = ({ boardId, handleAddCard, handleCloseModal }) => {
-
+  
   // set up states
   const [titleState, setTitleState] = useState("");
 
@@ -35,7 +35,7 @@ const NewCalCard = ({ boardId, handleAddCard, handleCloseModal }) => {
       body: JSON.stringify(newCalCard)
     };
     try {
-      const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardId}/cards`, options);
+      const responseData = await fetch(`http://localhost:4000/boards/${boardId}/cards`, options);
       console.log(responseData, "this is response data");
       if (responseData.ok) {
         const newCardObj = await responseData.json();

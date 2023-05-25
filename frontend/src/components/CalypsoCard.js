@@ -1,12 +1,12 @@
 // import the things we need
-import { Container, Card, Button, Modal, Col, Row } from 'react-bootstrap';
-import { useState } from 'react';
+import { Card, Button, Modal } from 'react-bootstrap';
+import { useState, useEffect } from 'react';
 import Task from './Task';
 import NewTask from './NewTask';
 
 // create component, pass props
-const CalypsoCard = ({ boardId, cards }) => {
-
+const CalypsoCard = ({ boardId, card }) => {
+    
     // set up states
     const [tasks, setTasks] = useState([]);
     // state for specific card modal
@@ -15,7 +15,7 @@ const CalypsoCard = ({ boardId, cards }) => {
     const [editMode, setEditMode] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
 
-    const cardsURL = `https://calypso-back-end.onrender.com/boards/${boardId}/cards/`;
+    const cardsURL = `http://localhost:4000/boards/${boardId}/cards/`;
 
     // handle entering edit mode
     const enterEditMode = (cardId) => {
@@ -72,10 +72,11 @@ const CalypsoCard = ({ boardId, cards }) => {
      };
 
     // new task handle
-    const handleAddTask = (newTask) => {
-        setTasks([...tasks, newTask]);
+    const handleAddTask = (newTask, cardId) => {
+        setTasks([...tasks, {cardId: newTask}]);
+        console.log(tasks);
         // refresh page after adding new task
-        window.location.reload();
+       //window.location.reload();
     };
     
     // add new task modal
@@ -94,62 +95,74 @@ const CalypsoCard = ({ boardId, cards }) => {
       }));
     };
 
+    // function to fetch task data 
+    const fetchTasksData = async (cardId) => {
+        const tasksURL = `http://localhost:4000/boards/${boardId}/cards/${cardId}/tasks`;
+        try {
+            const response = await fetch(tasksURL);
+            if (!response.ok) {
+                throw new Error ('Failed to get tasks.');
+            }
+            const tasksData = await response.json();
+            setTasks(tasksData);
+        } catch (error) {
+            console.log('Error fetching tasks: ', error);
+        }
+    };
+
+    // fetch tasks data
+    useEffect(() => {
+        fetchTasksData(card._id);
+    }, []);
 
     // display card
     return (
         <div>
-            <Container>
-                <Row>
-                    {/* map over existing cards */}
-                    {cards.map((card) => (
-                        <Col xs={12} md={4} key={card._id}>
-                            <Card>
-                            <Card.Title>
-                                {editMode === card._id ? (
-                                <input
-                                    type="text"
-                                    value={editedTitle}
-                                    onChange={(e) => setEditedTitle(e.target.value)}
-                                />
-                                ) : (
-                                <span onClick={() => enterEditMode(card._id)}>
-                                    {card.title}
-                                </span> )}
-                                {editMode === card._id && (
-                                <Button variant='primary' onClick={() => handleUpdateCardTitle(card._id)}>
-                                    Save
-                                </Button> )}
-                                </Card.Title>
-                                <Task boardId={boardId} cardId={card._id} tasks={card.tasks}/>
+           <Card>
+            <Card.Title>
+                {editMode === card._id ? (
+                <input
+                    type="text"
+                    value={editedTitle}
+                    onChange={(e) => setEditedTitle(e.target.value)}
+                />
+                ) : (
+                <span onClick={() => enterEditMode(card._id)}>
+                    {card.title}
+                </span> )}
+                {editMode === card._id && (
+                <Button variant='primary' onClick={() => handleUpdateCardTitle(card._id)}>
+                    Save
+                </Button> )}
+                </Card.Title>
+                {tasks.map((task) => (
+                        <Task boardId={boardId} cardId={card._id} task={task}/>
+                ))}
+                {/* buttons in footer */}
+                <Card.Footer>
+                <Button onClick={() => handleDeleteCard(card._id)} className="mt-2">
+                    Delete Card
+                </Button>
+                <Button variant="primary" onClick={() => handleShowModal(card._id)}>
+                    Add New Task
+                </Button>
+                </Card.Footer>
+            </Card>
 
-                                {/* buttons in footer */}
-                                <Card.Footer>
-                                <Button onClick={() => handleDeleteCard(card._id)} className="mt-2">
-                                    Delete Card
-                                </Button>
-                                <Button variant="primary" onClick={() => handleShowModal(card._id)}>
-                                    Add New Task
-                                </Button>
-                                </Card.Footer>
-                            </Card>
-                            {/* create NewTask modal */}
-                            <Modal show={modalVisible[card._id]} onHide={() => handleCloseModal(card._id)}>
-                                <Modal.Header closeButton>
-                                    <Modal.Title>Create a New Task</Modal.Title>
-                                </Modal.Header>
-                                <Modal.Body>
-                                    <NewTask cardId={card._id} boardId={boardId} handleAddTask={handleAddTask} handleCloseModal={() => handleCloseModal(card._id)} />
-                                </Modal.Body>
-                                <Modal.Footer>
-                                <Button variant="secondary" onClick={() => handleCloseModal(card._id)}>
-                                    Cancel
-                                </Button>
-                                </Modal.Footer>
-                            </Modal>
-                        </Col>
-                    ))}
-                </Row>
-            </Container>
+            {/* create NewTask modal */}
+            <Modal show={modalVisible[card._id]} onHide={() => handleCloseModal(card._id)}>
+                <Modal.Header closeButton>
+                    <Modal.Title>Create a New Task</Modal.Title>
+                </Modal.Header>
+                <Modal.Body>
+                    <NewTask cardId={card._id} boardId={boardId} handleAddTask={handleAddTask} handleCloseModal={() => handleCloseModal(card._id)} />
+                </Modal.Body>
+                <Modal.Footer>
+                <Button variant="secondary" onClick={() => handleCloseModal(card._id)}>
+                    Cancel
+                </Button>
+                </Modal.Footer>
+            </Modal>
         </div> 
     )
 };
