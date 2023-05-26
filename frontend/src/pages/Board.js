@@ -74,7 +74,6 @@ const Board = (props) => {
                 throw new Error ('Failed to update board title');
             }
             setEditMode(false);
-            window.location.reload(); // refresh the page
         } catch (error) {
             console.log('Error updating board title: ', error);
         }
@@ -84,7 +83,9 @@ const Board = (props) => {
     const handleAddCard = (newCard) => {
         setCards([...cards, newCard]);
     };
-
+    const handleRemoveCard = (cardId) => {
+        setCards((prev) => prev.filter((p) => p._id !== cardId ))
+    }
     // for add new card modal
     const handleShowModal = () => {
         setIsModalOpen(true);
@@ -142,7 +143,7 @@ const Board = (props) => {
             <Container>
                 <Row xs={12} md={4}>
                     {cards.map((card) => (
-                        <CalypsoCard key={card._id} card={card} boardId={boardId} />
+                        <CalypsoCard key={card._id} card={card} boardId={boardId} handleRemoveCard={handleRemoveCard}/>
                     ))}
                 </Row>
             </Container>

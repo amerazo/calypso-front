@@ -1,11 +1,12 @@
 // import the things we need
 import { Card, Button, Modal } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
+import { useDrag, useDrop } from 'react-dnd';
 import Task from './Task';
 import NewTask from './NewTask';
 
 // create component, pass props
-const CalypsoCard = ({ boardId, card }) => {
+const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
     
     // set up states
     const [tasks, setTasks] = useState([]);
@@ -15,7 +16,64 @@ const CalypsoCard = ({ boardId, card }) => {
     const [editMode, setEditMode] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
 
-    const cardsURL = `http://localhost:4000/boards/${boardId}/cards/`;
+    const cardsURL = `http://localhost:4000/boards/${boardId}/cards`;
+
+    // this allows the component to be draggable
+    // const [{isDragging},  drag] = useDrag(() => ({
+    //     type: "task",
+    //     collect: (monitor) => ({
+    //         isDragging: !!monitor.isDragging(),
+    //     })
+    // }))
+
+    // this allows the card to be droppable (take tasks)
+    const [{isOver}, drop] = useDrop(() => ({
+        accept: "task",
+        drop: (item) => addTaskToCard(item),
+        collect: (monitor) => ({
+            isOver: !!monitor.isOver(),
+        })
+    }))
+
+    const addTaskToCard = (task) => {
+        if (card._id !== task.cardId) {
+            console.log(`dropping task "${task.title}" onto card with card "${card.title}"`)
+            setTasks((prev) => {
+                return [...prev, task]
+            })
+            // make a put request to update the card's task state to equal the task's state
+            task.cardId = card._id;
+            moveTask(card._id, task);
+        }
+        return {cardId: card._id};
+    }
+
+    // remove task from old card
+    const removeTask = (task) => {
+        setTasks((current) => 
+        current.filter((t) => t._id !== task._id))
+        console.log("Removed Task: ", task.title);
+    }
+
+    const moveTask = async (cardId, task) => {
+        console.log('card id: ', cardId);
+        console.log('old card id: ', task.cardId);
+        try {
+            const options = {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ cardId: cardId })
+            };
+            const responseData = await fetch(`${cardsURL}/${task.cardId}/tasks/${task._id}`, options);
+            if (!responseData.ok) {
+                throw new Error ('Failed to update tasks card id');
+            }
+        } catch (error) {
+            console.log('Error updating tasks card id: ', error);
+        }
+    };
 
     // handle entering edit mode
     const enterEditMode = (cardId) => {
@@ -32,6 +90,7 @@ const CalypsoCard = ({ boardId, card }) => {
     // handle card title update
     const handleUpdateCardTitle = async (cardId) => {
         try {
+            console.log(editedTitle);
             const options = {
                 method: 'PUT',
                 headers: {
@@ -44,7 +103,7 @@ const CalypsoCard = ({ boardId, card }) => {
                 throw new Error ('Failed to update card title');
             }
             exitEditMode();
-            window.location.reload(); // refresh the page
+            card.title = editedTitle;
         } catch (error) {
             console.log('Error updating  title: ', error);
         }
@@ -65,18 +124,16 @@ const CalypsoCard = ({ boardId, card }) => {
              throw new Error('Failed to delete card');
          }
          // refresh page after successful deletion
-         window.location.reload();
+         handleRemoveCard(cardId);
         } catch (error) {
          console.log('Error deleting card: ', error);
         }
      };
 
     // new task handle
-    const handleAddTask = (newTask, cardId) => {
-        setTasks([...tasks, {cardId: newTask}]);
-        console.log(tasks);
+    const handleAddTask = (newTask) => {
+        setTasks([...tasks, newTask]);
         // refresh page after adding new task
-       //window.location.reload();
     };
     
     // add new task modal
@@ -117,8 +174,10 @@ const CalypsoCard = ({ boardId, card }) => {
 
     // display card
     return (
-        <div>
-           <Card>
+        <div> 
+        {tasks ? (
+            <>
+           <Card key={card._id} ref={drop}>
             <Card.Title>
                 {editMode === card._id ? (
                 <input
@@ -136,7 +195,8 @@ const CalypsoCard = ({ boardId, card }) => {
                 </Button> )}
                 </Card.Title>
                 {tasks.map((task) => (
-                        <Task boardId={boardId} cardId={card._id} task={task}/>
+                        <Task key={task._id} boardId={boardId} cardId={card._id} task={task} 
+                        removeTask={removeTask}/>
                 ))}
                 {/* buttons in footer */}
                 <Card.Footer>
@@ -162,8 +222,9 @@ const CalypsoCard = ({ boardId, card }) => {
                     Cancel
                 </Button>
                 </Modal.Footer>
-            </Modal>
-        </div> 
+            </Modal> </>
+    ) : <h2>...LOADING</h2> } 
+    </div>
     )
 };
 
