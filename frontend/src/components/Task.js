@@ -32,7 +32,7 @@ const Task = ({ cardId, boardId, task, removeTask}) => {
                     'Content-Type': 'application/json'
                 }
             }
-            const responseData = await fetch(`http://localhost:4000/boards/${boardId}/cards/${cardId}/tasks/${taskId}`, options);
+            const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardId}/cards/${cardId}/tasks/${taskId}`, options);
             console.log('task deleted')
             const taskRemoved = await responseData.json()
             if (!responseData.ok) {

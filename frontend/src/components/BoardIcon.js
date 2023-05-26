@@ -14,7 +14,7 @@ const BoardIcon = ({ boards, handleRemoveBoard}) => {
                 'Content-Type': 'application/json'
             }
         };
-        const responseData = await fetch(`http://localhost:4000/boards/${boardId}`, options);
+        const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardId}`, options);
         console.log('board deleted');
         if (!responseData.ok) {
             throw new Error('Failed to delete board');

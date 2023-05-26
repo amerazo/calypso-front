@@ -16,7 +16,7 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
     const [editMode, setEditMode] = useState(false);
     const [editedTitle, setEditedTitle] = useState('');
 
-    const cardsURL = `http://localhost:4000/boards/${boardId}/cards`;
+    const cardsURL = `https://calypso-back-end.onrender.com/boards/${boardId}/cards`;
 
     // this allows the component to be draggable
     // const [{isDragging},  drag] = useDrag(() => ({
@@ -154,7 +154,7 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
 
     // function to fetch task data 
     const fetchTasksData = async (cardId) => {
-        const tasksURL = `http://localhost:4000/boards/${boardId}/cards/${cardId}/tasks`;
+        const tasksURL = `https://calypso-back-end.onrender.com/boards/${boardId}/cards/${cardId}/tasks`;
         try {
             const response = await fetch(tasksURL);
             if (!response.ok) {
