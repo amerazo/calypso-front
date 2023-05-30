@@ -1,7 +1,9 @@
 // import the things we need
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { Button, Modal } from 'react-bootstrap';
+import { Button, Modal, Container, Row } from 'react-bootstrap';
+import { DndProvider } from 'react-dnd';
+import { HTML5Backend } from 'react-dnd-html5-backend';
 import NewCalCard from '../components/NewCalCard';
 import CalypsoCard from "../components/CalypsoCard";
 
@@ -72,7 +74,6 @@ const Board = (props) => {
                 throw new Error ('Failed to update board title');
             }
             setEditMode(false);
-            window.location.reload(); // refresh the page
         } catch (error) {
             console.log('Error updating board title: ', error);
         }
@@ -82,7 +83,9 @@ const Board = (props) => {
     const handleAddCard = (newCard) => {
         setCards([...cards, newCard]);
     };
-
+    const handleRemoveCard = (cardId) => {
+        setCards((prev) => prev.filter((p) => p._id !== cardId ))
+    }
     // for add new card modal
     const handleShowModal = () => {
         setIsModalOpen(true);
@@ -93,6 +96,7 @@ const Board = (props) => {
 
     // my board page
     return (
+        <DndProvider backend={HTML5Backend}>
         <div>
             {/* title and edit title */}
             {myBoard ? (
@@ -135,9 +139,16 @@ const Board = (props) => {
                 </Modal.Footer>
             </Modal>  
             
-            {/* existing cards */}
-            {cards ? <CalypsoCard cards={cards} boardId={boardId} /> : <h2>LOADING.. </h2>}
+            {/* cards */}
+            <Container>
+                <Row xs={12} md={4}>
+                    {cards.map((card) => (
+                        <CalypsoCard key={card._id} card={card} boardId={boardId} handleRemoveCard={handleRemoveCard}/>
+                    ))}
+                </Row>
+            </Container>
         </div>
+        </DndProvider>
     )
 };
 

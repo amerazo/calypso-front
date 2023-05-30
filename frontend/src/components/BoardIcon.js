@@ -3,7 +3,7 @@ import { Card, Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 // create component, pass props
-const BoardIcon = ({ boards }) => {
+const BoardIcon = ({ boards, handleRemoveBoard}) => {
     
     // delete board
     const handleDeleteBoard = async (boardId) => {
@@ -20,7 +20,7 @@ const BoardIcon = ({ boards }) => {
             throw new Error('Failed to delete board');
         }
         // refresh page after successful deletion
-        window.location.reload();
+        handleRemoveBoard(boardId);
        } catch (error) {
         console.log('Error deleting board: ', error);
        }

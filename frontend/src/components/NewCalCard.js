@@ -4,7 +4,7 @@ import { Form, Button } from 'react-bootstrap';
 
 // create component, pass props
 const NewCalCard = ({ boardId, handleAddCard, handleCloseModal }) => {
-
+  
   // set up states
   const [titleState, setTitleState] = useState("");
 
