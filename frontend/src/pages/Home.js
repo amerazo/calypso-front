@@ -1,13 +1,13 @@
 // import the things we need
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Card, Container } from 'react-bootstrap'; 
-
+import '../pages/Home.css'
 // create component, pass props
 const Home = (props) => {
 
     // home page
     return (
-        <Container style={{ display: 'flex', flexDirection: 'row' }}>
+        <Container className='home-container'>
             <Card style={{ flex: 1, width: '20rem' }}>
                 <Card.Body>
                     <Card.Title>About Calypso</Card.Title>

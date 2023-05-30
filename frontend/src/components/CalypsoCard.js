@@ -3,7 +3,7 @@ import { Container, Card, Button, Modal, Col, Row } from 'react-bootstrap';
 import { useState } from 'react';
 import Task from './Task';
 import NewTask from './NewTask';
-
+import './CalypsoCard.css'
 // create component, pass props
 const CalypsoCard = ({ boardId, cards }) => {
 
@@ -112,7 +112,7 @@ const CalypsoCard = ({ boardId, cards }) => {
                                     onChange={(e) => setEditedTitle(e.target.value)}
                                 />
                                 ) : (
-                                <span onClick={() => enterEditMode(card._id)}>
+                                <span className='card-title' onClick={() => enterEditMode(card._id)}>
                                     {card.title}
                                 </span> )}
                                 {editMode === card._id && (

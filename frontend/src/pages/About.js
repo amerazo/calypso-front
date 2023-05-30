@@ -40,7 +40,7 @@ const AboutUs = () => {
           <h2>{developer.name}</h2>
           <h3>{developer.position}</h3>
           <p>{developer.bio}</p>
-          <a href={developer.git} target="_blank" rel="noreferrer" style={{color: '#000000', textDecoration: 'none'}}>
+          <a href={developer.git} target="_blank" rel="noreferrer" style={{color: '#efebff', textDecoration: 'none'}}>
               <FaGithub size={30} />
         </a>
         

@@ -1,0 +1,16 @@
+.mt-2 {
+    margin: 3px;
+}
+.card {
+    border: solid #267988 3px;
+    --bs-card-border-color: #efebff;
+}
+.card-title {
+    color: #267988;
+}
+h1{
+    color: #267988;
+}
+h3{
+    color:#1f628e;
+}

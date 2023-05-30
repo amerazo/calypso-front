@@ -5,7 +5,7 @@ import { FaLinkedin } from 'react-icons/fa';
 
 function Footer() {
   return (
-    <footer  style={{backgroundColor: '#efebff'}}>
+    <footer className='footer' style={{backgroundColor: '#efebff', position: 'fixed', bottom: 0, width: '100%'}}>
       <Container>
         <Row style={{color: '#1f628e', fontSize: "20px"}}>
           <Col xs={12} className="text-center">
