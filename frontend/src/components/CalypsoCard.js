@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Task from './Task';
 import NewTask from './NewTask';
-
+import './CalypsoCard.css'
 // create component, pass props
 const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
     
@@ -186,7 +186,7 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
                     onChange={(e) => setEditedTitle(e.target.value)}
                 />
                 ) : (
-                <span onClick={() => enterEditMode(card._id)}>
+                <span className='card-title' onClick={() => enterEditMode(card._id)}>
                     {card.title}
                 </span> )}
                 {editMode === card._id && (

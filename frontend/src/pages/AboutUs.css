@@ -3,6 +3,8 @@
     margin: 0 auto;
     padding: 20px;
     text-align: center;
+    padding-bottom: 200px;
+    color: #267988;
   }
   
   .developers-container {
@@ -19,6 +21,7 @@
     margin: 10px;
     background-color: #267988;
     border-radius: 8px;
+    color: #efebff;
   }
   
   .developer-card h3 {

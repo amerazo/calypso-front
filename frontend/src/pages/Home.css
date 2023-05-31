@@ -1,0 +1,19 @@
+.home-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-top: 200px;
+}
+
+.btn-primary{
+    --bs-btn-color: #fff;
+    --bs-btn-bg: #267988;
+    --bs-btn-border-color: #267988;
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #1f628e;
+    --bs-btn-hover-border-color: #d2c7ff;
+}
+.card {
+    border: solid #267988 5px;
+    margin: 8px;
+}
