@@ -1,41 +1,30 @@
 // import the things we need
-import { Card, Col, Button } from 'react-bootstrap';
-import { useEffect, useState } from 'react';
+import { Card, Button } from 'react-bootstrap';
+import { useDrag } from 'react-dnd';
 import './Task.css';
 
-
 // create component, pass props
-const Task = ({ cardId, boardId, tasks }) => {
+const Task = ({ cardId, boardId, task, removeTask}) => {
 
-    // tasks URL
-    const tasksURL = `https://calypso-back-end.onrender.com/boards/${boardId}/cards/${cardId}/tasks`;
-
-    // set up states
-    const [taskState, setTaskState] = useState([]);
-
-    // function to fetch task data 
-    const fetchTasksData = async () => {
-        try {
-            const response = await fetch(tasksURL);
-            if (!response.ok) {
-                throw new Error ('Failed to get tasks.');
+    // this allows the component to be draggable.
+    const [{isDragging},  drag] = useDrag(() => ({
+        type: "task",
+        item: task,
+        end: (item, monitor) => {
+            const dropCardId = monitor.getDropResult().cardId;
+            if (monitor.didDrop() && dropCardId !== cardId) {
+                removeTask(item);
             }
-            const tasksData = await response.json();
-            setTaskState(tasksData);
-        } catch (error) {
-            console.log('Error fetching tasks: ', error);
-        }
-    };
+        },
+        collect: (monitor) => ({
+            isDragging: !!monitor.isDragging(),
+        })
+    }))
+    // remove task from card when dragged
 
-    // fetch tasks data
-    useEffect(() => {
-        fetchTasksData();
-    }, []);
 
     // delete task
     const handleDeleteTask = async (taskId) => {
-        // in case taskId is undefined
-        console.log('Task taskId: ', taskId);
         try {
             const options = {
                 method: 'DELETE',
@@ -45,11 +34,12 @@ const Task = ({ cardId, boardId, tasks }) => {
             }
             const responseData = await fetch(`https://calypso-back-end.onrender.com/boards/${boardId}/cards/${cardId}/tasks/${taskId}`, options);
             console.log('task deleted')
+            const taskRemoved = await responseData.json()
             if (!responseData.ok) {
                 throw new Error('Failed to delete task');
             }
             // refresh page after successful deletion
-            window.location.reload();
+            removeTask(taskRemoved);
         } catch (error) {
             console.log('Error deleting card: ', error);
         }
@@ -58,17 +48,12 @@ const Task = ({ cardId, boardId, tasks }) => {
     // display task
     return (
         <div>
-            {/* map over existing tasks */}
-            {taskState.map((task, index) => (
-                // <Col xs={12}  key={task._id}>
-                <Card key={task._id}>
+            <Card key={task._id} ref={drag} style={{"border": isDragging ? "5px solid pink" : "1px solid"}}>
                     <Card.Text>{task.title}</Card.Text>
                     <Button variant="outline-secondary" size="sm" onClick={() => handleDeleteTask(task._id)} className="mt-2 btn-tiny btn-corner">
                         -
                     </Button>
-                </Card>
-                // </Col>
-            ))}
+            </Card>
         </div> 
     )
 };

@@ -3,7 +3,7 @@ import { Form, Button } from 'react-bootstrap';
 import { useState } from 'react';
 
 // create component, pass props
-const NewBoard = (props) => {
+const NewBoard = ({handleCloseModal, handleAddBoard}) => {
 
   // set up states
   const [titleState, setTitleState] = useState("");
@@ -11,7 +11,6 @@ const NewBoard = (props) => {
 
   // state updater
   const onChangeHandler = (e, setValue) => {
-    console.log(e.target);
     setValue(e.target.value);
   }
 
@@ -32,6 +31,8 @@ const NewBoard = (props) => {
     };
     const responseData = await fetch("https://calypso-back-end.onrender.com/boards", options);
     const newBoardObj = await responseData.json();
+    handleAddBoard(newBoardObj);
+    handleCloseModal();
     console.group(newBoardObj);
   };
 

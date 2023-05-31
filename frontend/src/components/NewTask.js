@@ -26,7 +26,7 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
     console.log("New Task, yo: ", newTask);
   // set the task title state
   setTaskTitle('');
-  // close the modale
+  // close the modal
   handleCloseModal();
   // and post
   const options = {
@@ -41,7 +41,7 @@ const NewTask = ({ cardId, boardId, handleAddTask, handleCloseModal }) => {
     if (responseData.ok) {
       const newTaskObj = await responseData.json();
       // updates the tasks with new task
-      handleAddTask(newTaskObj);
+      handleAddTask(newTaskObj, cardId);
     } else {
       console.log('Failed to create task', responseData.status);
     }

@@ -32,14 +32,23 @@ const Boards = (props) => {
     const handleCloseModal = () => {
         setShowModal(false);
     };
-
+    const handleAddBoard = (board) => {
+        setBoards((prev) => {
+            return [...prev, board]
+        })
+    }
+    const handleRemoveBoard = (boardId) => {
+        setBoards((prev) => 
+            prev.filter((b) => b._id !== boardId)
+        )
+    }
     // boards page
     return (
         <div>
             <h1>My Boards</h1>
             
             {/* existing boards */}
-            {boards ? <BoardIcon boards={boards} /> : <h2>LOADING.. </h2>}
+            {boards ? <BoardIcon boards={boards} handleRemoveBoard={handleRemoveBoard} /> : <h2>LOADING.. </h2>}
 
             {/* new board form */}
             <Button variant="primary" onClick={handleShowModal}>
@@ -50,7 +59,7 @@ const Boards = (props) => {
                     <Modal.Title>Create a New Board</Modal.Title>
                 </Modal.Header>
             <Modal.Body>
-                <NewBoard />
+                <NewBoard handleCloseModal={handleCloseModal} handleAddBoard={handleAddBoard}/>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant="secondary" onClick={handleCloseModal}>
