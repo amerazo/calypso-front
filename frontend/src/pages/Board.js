@@ -1,4 +1,5 @@
 // import the things we need
+import React from 'react';
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { Button, Modal, Container, Row } from 'react-bootstrap';
@@ -78,7 +79,8 @@ const Board = (props) => {
             console.log('Error updating board title: ', error);
         }
     };
-
+    //back button
+        
     // new card handle
     const handleAddCard = (newCard) => {
         setCards([...cards, newCard]);
