@@ -48,14 +48,14 @@ const Task = ({ cardId, boardId, task, removeTask}) => {
     // display task
     return (
         <div>
-            <Card key={task._id} ref={drag} style={{"border": isDragging ? "5px solid pink" : "1px solid"}}>
+            <Card className="task" key={task._id} ref={drag} style={{"border": isDragging ? "5px solid #ff66c4" : "5px solid #1f628e"}}>
                     <Card.Text>{task.title}</Card.Text>
                     <Button variant="outline-secondary" size="sm" onClick={() => handleDeleteTask(task._id)} className="mt-2 btn-tiny btn-corner">
-                        -
+                    -
                     </Button>
-            </Card>
+                </Card>
         </div> 
     )
 };
-
+//style={{"border": isDragging ? "5px solid pink" : "1px solid"}}
 export default Task;

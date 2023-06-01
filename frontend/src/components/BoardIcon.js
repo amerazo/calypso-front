@@ -37,7 +37,6 @@ const BoardIcon = ({ boards, handleRemoveBoard}) => {
                         <Link to={`/boards/${board._id}`} style={{ textDecoration: 'none' }}>
                             <Card.Title>{board.title}</Card.Title>
                         </Link>
-                            <h3>image</h3>
                         <Button onClick={() => handleDeleteBoard(board._id)} className="mt-2">
                                 Delete
                         </Button>
