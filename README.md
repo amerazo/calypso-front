@@ -51,6 +51,11 @@
         </tr>
     </table>
     <h2>WireFrame</h2>
-    <img src="wireframe_image_url_here" alt="WireFrame">
+    <img src="https://imgur.com/iFypUSb.png" alt="WireFrame">
+    <img src="https://imgur.com/d12QBJQ.png" alt="WireFrame">
+    <img src="https://imgur.com/HRRWIe6.png" alt="WireFrame">
+    <img src="https://imgur.com/YXRGLjQ.png" alt="WireFrame">
+    <img src="https://imgur.com/20KY3b4.png" alt="WireFrame">
+    <img src="https://imgur.com/fvO3vXo.png" alt="WireFrame">
 </body>
 </html>
