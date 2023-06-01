@@ -4,7 +4,6 @@
     padding: 20px;
     text-align: center;
     padding-bottom: 200px;
-    color: #267988;
   }
   
   .developers-container {
@@ -26,6 +25,7 @@
   
   .developer-card h3 {
     margin-top: 10px;
+    color: #efebff;
   }
   
 
