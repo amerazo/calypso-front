@@ -1,10 +1,12 @@
 // import the things we need
-import { Card, Button, Modal } from 'react-bootstrap';
+import { Card, Button, Modal, ButtonGroup } from 'react-bootstrap';
 import { useState, useEffect } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import Task from './Task';
 import NewTask from './NewTask';
 import './CalypsoCard.css'
+
+
 // create component, pass props
 const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
     
@@ -18,14 +20,6 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
 
     const cardsURL = `https://calypso-back-end.onrender.com/boards/${boardId}/cards`;
 
-    // this allows the component to be draggable
-    // const [{isDragging},  drag] = useDrag(() => ({
-    //     type: "task",
-    //     collect: (monitor) => ({
-    //         isDragging: !!monitor.isDragging(),
-    //     })
-    // }))
-
     // this allows the card to be droppable (take tasks)
     const [{isOver}, drop] = useDrop(() => ({
         accept: "task",
@@ -35,6 +29,7 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
         })
     }))
 
+    // add task to new card
     const addTaskToCard = (task) => {
         if (card._id !== task.cardId) {
             console.log(`dropping task "${task.title}" onto card with card "${card.title}"`)
@@ -55,6 +50,7 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
         console.log("Removed Task: ", task.title);
     }
 
+    // put request 
     const moveTask = async (cardId, task) => {
         console.log('card id: ', cardId);
         console.log('old card id: ', task.cardId);
@@ -123,7 +119,7 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
          if (!responseData.ok) {
              throw new Error('Failed to delete card');
          }
-         // refresh page after successful deletion
+         // update state to remove
          handleRemoveCard(cardId);
         } catch (error) {
          console.log('Error deleting card: ', error);
@@ -133,7 +129,6 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
     // new task handle
     const handleAddTask = (newTask) => {
         setTasks([...tasks, newTask]);
-        // refresh page after adding new task
     };
     
     // add new task modal
@@ -200,12 +195,14 @@ const CalypsoCard = ({ boardId, card, handleRemoveCard}) => {
                 ))}
                 {/* buttons in footer */}
                 <Card.Footer>
-                <Button onClick={() => handleDeleteCard(card._id)} className="mt-2">
+                <ButtonGroup>
+                <Button variant="primary" onClick={() => handleDeleteCard(card._id)}>
                     Delete Card
                 </Button>
                 <Button variant="primary" onClick={() => handleShowModal(card._id)}>
                     Add New Task
                 </Button>
+                </ButtonGroup>
                 </Card.Footer>
             </Card>
 

@@ -1,10 +1,24 @@
 .btn-tiny {
     padding: 0.2rem 0.5rem;
     font-size: 0.8rem;
+    border: 2px solid #ff66c4;
+    color: #ff66c4;
   }
   
   .btn-corner {
     position: absolute;
+    background-color: #fd6a5b; 
+    color: #d2c7ff;
     bottom: 0.5rem;
     right: 0.5rem;
+  }
+
+  .btn-corner:hover {
+    background-color: #fd6a5b;
+    color: #1f628e;
+  }
+
+  .task {
+    background-color: #efebff !important; 
+    color: #1f628e !important;
   }

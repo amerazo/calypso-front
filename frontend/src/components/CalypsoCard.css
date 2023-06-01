@@ -1,9 +1,7 @@
-.mt-2 {
-    margin: 3px;
-}
 .card {
     border: solid #267988 3px;
     --bs-card-border-color: #efebff;
+    background-color: #d2c7ff;
 }
 .card-title {
     color: #267988;
